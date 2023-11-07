@@ -20,7 +20,7 @@ def Run_Simulation_Once():
     M.Experience_Snow_Event()
 
     # Generate trips
-    List_Trips = Trip_Generation_Module()
+    List_Trips = Trip_Generation_Module(M)
 
     # Generate Plowing Sequence
     List_of_PlowingMaps = Simulate_Plowing(plowing_sequence)

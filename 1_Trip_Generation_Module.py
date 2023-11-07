@@ -1,3 +1,6 @@
+# Chirst 
+
+
 def Trip_Generation_Module():
 '''
 This is a function that generate all trips
@@ -14,7 +17,7 @@ This is a function that generate all trips
     
 
 
-
+# trip routing is in there
 class Household_Trip():
     '''
     This object contains all information about trip of a hosuehold
@@ -26,7 +29,7 @@ class Household_Trip():
     self.household_loc
     self.trip_start_time = 
     self.stay_duration = 
-    ....
+    self.route = 
 
     def simulation(self, inputs...):
     
