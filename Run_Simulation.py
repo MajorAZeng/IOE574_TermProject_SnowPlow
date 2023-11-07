@@ -16,14 +16,20 @@ import 5_Post_Processing_Module
 def Run_Simulation_Once():
 
     # Create Base Map
+    M = Map()
+    M.Experience_Snow_Event()
 
     # Generate trips
+    List_Trips = Trip_Generation_Module()
 
     # Generate Plowing Sequence
+    List_of_PlowingMaps = Simulate_Plowing(plowing_sequence)
 
     # Generate Speed Maps
+    List_of_SeedMaps = Simulate_Speed_Map(Map, plowing_simulation)
 
     # Simluation all Trips and record
+    Trip_Records = Simulate_All_Trips(List_Trips, List_of_SeedMaps)
 
     return ...  # Some record of the simulation
 
