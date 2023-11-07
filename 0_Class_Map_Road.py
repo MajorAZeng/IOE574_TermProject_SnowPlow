@@ -4,6 +4,7 @@ class Map():
     Each map object carries information about all road segments and their travel speed.
     There are various methods to manipulate the map (updating travel seepd or so.)
     '''
+    # chris comment to see if the change works
 
     def __init__(self):
         '''
