@@ -26,7 +26,7 @@ def Run_Simulation_Once():
     List_of_PlowingMaps = Simulate_Plowing(plowing_sequence)
 
     # Generate Speed Maps
-    List_of_SeedMaps = Simulate_Speed_Map(Map, plowing_simulation)
+    List_of_SeedMaps = Simulate_Speed_Map(M, List_of_PlowingMaps)
 
     # Simluation all Trips and record
     Trip_Records = Simulate_All_Trips(List_Trips, List_of_SeedMaps)
