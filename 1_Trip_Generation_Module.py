@@ -1,4 +1,4 @@
-def Trip_Generation_Module:
+def Trip_Generation_Module():
 '''
 This is a function that generate all trips
 '''
