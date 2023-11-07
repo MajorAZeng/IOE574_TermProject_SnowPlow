@@ -9,6 +9,7 @@ This is a function that generate all trips
     # create housefold_trip object for each of them
     
     # return a list of hosehold_trip objects 
+    # determine route based on distance- network x package
    
 
     
