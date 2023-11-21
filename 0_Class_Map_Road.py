@@ -5,6 +5,7 @@ class Map:
     def __init__(self, geopackage_path):
         self.roads = self._load_roads(geopackage_path)
         self.intersections = self._load_intersections(geopackage_path)
+        self.timestamp = 0
 
     def _load_roads(self, geopackage_path):
         roads_gdf = gpd.read_file(geopackage_path, layer='edges')  # Use 'edges' for the roads layer
