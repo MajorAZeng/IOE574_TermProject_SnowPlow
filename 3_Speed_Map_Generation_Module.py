@@ -1,32 +1,26 @@
 # Major 
+import numpy as np
+from 0_Class_Map_Road import Map, Road, Intersection
 
-def Experience_Snow_Event(self, snow_depth=4):
-        '''
-        Thus method update all road speed with a snow event. 
-        By defult the snow depth is 4 inch. Additional argument input can change the depth. 
-        '''
+def Simulate_Speed_Maps(geopackage_path, snow_depth, List_Plow_Maps):
     
-def Experience_Plow_Event(self, plow_section):
-        '''
-        This method update the map on a specific segment as if plowing has been completed on that segment
-        '''
+    # Simulate a base map
+    MP = Map(geopackage_path)
 
+    # Simulation Snow Event
+    for Rd in MP.roads:
+        Rd.Experience_Snow(snow_depth)
 
-def Update_Speed_with_Plow_Map(Map_object, plow_map):
-    '''
-    Update the travel map with plow_map at the moment
-    '''
-
-
-
-
-def Simulate_Speed_Map(Map, plowing_simulation):
-    '''
-    Create a list of modified map object, each corresponding to a object in plowing_simulation with a distinct timestemp.
-    '''
-
-    return # a list of map object with varied speed and time step
-
+    # Generate Plowed Speed Map
+    List_Speed_Maps = [MP]
+    # Create a speed map according to each plow map
+    for Plow_Map in List_Plow_Maps:
+        MP.timestamp  = Plow_Map.timestamp
+        for road_num in Plow_Map.plowed:
+            for Rd in MP.roads:
+                if Rd.num == road_num:
+                        Rd.Experience_Plow
+        List_Speed_Maps.append(MP)
 
 
 
