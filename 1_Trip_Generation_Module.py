@@ -18,7 +18,7 @@ destinations = pd.read_csv("your_destinations.csv", names=['longitude', 'latitud
 # Create a graph from the road network data
 G = nx.Graph()
 
-for index, row in road_network.itertuples():
+for row in road_network.itertuples():
     G.add_edge(row[11], row.to, weight=row.length, osmid = row.osmid)
     pos = {row[11]: (row.geometry.bounds[0], row.geometry.bounds[1]), row.to: (row.geometry.bounds[2], row.geometry.bounds[3])}
     nx.set_node_attributes(G, pos, 'geometry')
