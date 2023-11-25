@@ -7,13 +7,6 @@ from sklearn.neighbors import BallTree
 import numpy as np
 import random
 
-import geopandas as gpd
-import networkx as nx
-import pandas as pd
-from shapely.geometry import Point
-from sklearn.neighbors import BallTree
-import numpy as np
-import random
 
 def generate_trips():
     # Load the road network data using GeoPandas
