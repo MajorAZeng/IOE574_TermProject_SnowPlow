@@ -1,4 +1,4 @@
-# Kate
+# Kate hh
 
 import geopandas as gpd
 import networkx as nx
@@ -83,7 +83,7 @@ def plow_sequence_2(plow_map):
 def simulate_plowing(plow_map, plow_vehicles, sequences, max_iterations=1000):
     all_plowed_roads = {}  # Store plowed roads and timestamps for each sequence
 
-    for sequence in sequences:
+    for sequence in sequences():
         plowed_roads = []  # Store plowed roads and timestamps
         iteration = 0
 
