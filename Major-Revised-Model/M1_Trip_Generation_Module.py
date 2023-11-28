@@ -37,7 +37,7 @@ def Generate_Trips(Map, ori_path, des_path):
     selected_households = locations.sample(n=3830)
 
     # Create a DataFrame to store all trip data
-    all_trips_df = pd.DataFrame(columns=['start_latitude', 'start_longitude', 'destination_latitude', 'destination_longitude', 'shortest_path', 'duration', 'shortest_return_path'])
+    all_trips_df = pd.DataFrame(columns=['start_latitude', 'start_longitude', 'destination_latitude', 'destination_longitude', 'shortest_path', 'duration'])
 
     # Generate trips
     for location in selected_households.itertuples():
@@ -67,8 +67,7 @@ def Generate_Trips(Map, ori_path, des_path):
             'destination_latitude': location.latitude,
             'destination_longitude': location.longitude,
             'shortest_path': shortest_path,
-            'duration': trip_duration,
-            'shortest_return_path': shortest_path  # Assuming return distance is the same as the original trip distance
+            'duration': trip_duration
         }
 
         # Add the trip and return trip data to the DataFrame
@@ -79,7 +78,6 @@ def Generate_Trips(Map, ori_path, des_path):
             'destination_longitude': closest_destination.longitude,
             'shortest_path': shortest_path,
             'duration': trip_duration,
-            'shortest_return_path': shortest_path
         }
 
         # Convert the dictionary to a DataFrame
