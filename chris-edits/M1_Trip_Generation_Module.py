@@ -53,7 +53,11 @@ def Generate_Trips(Map, ori_path, des_path):
             
             # path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
             shortest_path = nx.dijkstra_path(G, source=start_node, target = end_node)
-            shortest_path_edges = list(nx.utils.pairwise(shortest_path))
+            shortest_path_edges = []
+            for i in range(len(shortest_path) - 1):
+                shortest_path_edges.append((shortest_path[i], shortest_path[i+1]))
+
+            #shortest_path_edges = list(nx.utils.pairwise(shortest_path))
             #if path_distance < min_distance:
                # min_distance = path_distance
                 #closest_destination = destination
