@@ -50,6 +50,7 @@ def Generate_Trips(Map, ori_path, des_path):
             end_point = Point(destination.longitude, destination.latitude)
             end_node = nearest_node(G, end_point)
 
+            
             path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
 
             if path_distance < min_distance:
