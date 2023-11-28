@@ -1,6 +1,48 @@
 # Chris
 # Major Revised
 
+import pandas as pd
+import geopandas as gpd
+from sklearn.preprocessing import FunctionTransformer
+from shapely.geometry import Point
+import numpy as np
+
+def Generate_Trips(map_file, origins, destinations):
+    # Load the .gpkg map file
+    map_df = gpd.read_file(map_file)
+    
+    # Convert the .csv of origins and destinations to dataframes
+    origins_df = pd.read_csv(origins)
+    destinations_df = pd.read_csv(destinations)
+    
+    # Function to generate a trip between a pair of points
+    def generate_trip(row):
+        origin = Point(row['longitude_origin'], row['latitude_origin'])
+        destination = Point(row['longitude_destination'], row['latitude_destination'])
+        
+        # Find the closest nodes in the map to the origin and destination
+        closest_origin_node = map_df[map_df.geometry == map_df.geometry.nearest(origin)].iloc[0]
+        closest_destination_node = map_df[map_df.geometry == map_df.geometry.nearest(destination)].iloc[0]
+        
+        # Calculate the shortest path between the origin node and the destination node
+        shortest_path = calculate_shortest_path(map_df, closest_origin_node, closest_destination_node)
+        
+        # Randomly generate duration for each trip with mean 20 and standard deviation 5
+        duration = np.random.normal(20, 5)
+        
+        return pd.Series([row['longitude_origin'], row['latitude_origin'], row['longitude_destination'], row['latitude_destination'], shortest_path, duration])
+    
+    # Generate trips for each pair of origins and destinations
+    trips_df = origins_df.apply(lambda row: generate_trip(row), axis=1)
+    
+    # Reset the index of the dataframe and rename the columns
+    trips_df = trips_df.reset_index(drop=True)
+    trips_df.columns = ['longitude_origin', 'latitude_origin', 'longitude_destination', 'latitude_destination', 'shortest_path', 'duration']
+    
+    Map.trips = trips_df
+
+
+'''
 import geopandas as gpd
 import networkx as nx
 import pandas as pd
@@ -18,7 +60,7 @@ def Generate_Trips(Map, ori_path, des_path):
 
     # Load the graph from the map-
     G = Map.graph
-    
+
 # Create a list to store all trips
 # Generate random trips
 trips = []
@@ -100,3 +142,4 @@ for location in selected_households.itertuples():
 
 # Return the DataFrame with all trip data to Map
 Map.trips = all_trips_df
+'''
