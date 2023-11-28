@@ -1,6 +1,6 @@
 # Chris
 # Major Revised
-'''
+
 import pandas as pd
 import geopandas as gpd
 from sklearn.preprocessing import FunctionTransformer
@@ -142,3 +142,4 @@ def Generate_Trips(Map, ori_path, des_path):
 
     # Return the DataFrame with all trip data to Map
     Map.trips = all_trips_df
+'''
