@@ -17,7 +17,7 @@ def Generate_Trips(Map, origins_file, destinations_file):
 
 
     trips_data = []
-    for idx, origin in origins.iterrows():
+    for idx, origin in origins.itertuples():
         # Convert origin and destination latitudes and longitudes to Points
         origin_point = Point(origin['longitude'], origin['latitude'])
 
@@ -29,7 +29,7 @@ def Generate_Trips(Map, origins_file, destinations_file):
         shortest_path = None
         shortest_distance = float('inf')
 
-        for idx, destination in destinations.iterrows():
+        for idx, destination in destinations.itertuples():
             # Convert destination latitudes and longitudes to Points
             dest_point = Point(destination['longitude'], destination['latitude'])
 
