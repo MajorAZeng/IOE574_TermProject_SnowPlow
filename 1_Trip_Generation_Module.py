@@ -18,7 +18,6 @@ def generate_trips():
 
     # Create a graph from the road network data
     G = nx.Graph()
-
     for row in road_network.itertuples():
         G.add_edge(row[11], row.to, weight=row.length, osmid=row.osmid)
         pos = {

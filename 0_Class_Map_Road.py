@@ -132,3 +132,6 @@ class Intersection:
         self.latitude = latitude
         self.longitude = longitude
         self.connected_roads = connected_roads
+
+
+M = Map('nonresidential_network_geopackage.gpkg')
