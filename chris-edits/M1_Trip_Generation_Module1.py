@@ -12,8 +12,8 @@ def Generate_Trips(Map, origins_file, destinations_file):
     graph = Map.graph
 
     # Read origin and destination CSV files
-    origins = pd.read_csv(ori_path, names=['longitude', 'latitude'])
-    destinations = pd.read_csv(des_path, names=['longitude', 'latitude'])
+    origins = pd.read_csv(origins_file, names=['longitude', 'latitude'])
+    destinations = pd.read_csv(destinations_file, names=['longitude', 'latitude'])
 
 
     trips_data = []
