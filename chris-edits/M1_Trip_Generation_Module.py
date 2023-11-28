@@ -73,7 +73,7 @@ def Generate_Trips(Map, ori_path, des_path):
                 closest_destination = destination
         end_point = Point(destionation.longitude, destination.latitude)
         end_node = nearest_node(G, end_point)
-        shortest_path = nx.dijkstra_path(G, start_node, end_node)
+        shortest_path = find_shortest_path(G, start_node, end_node)
 
         # Generate random trip duration with an average of 20 minutes
         trip_duration = max(1, round(random.normalvariate(20, 5)))
