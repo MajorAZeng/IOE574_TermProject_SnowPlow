@@ -45,7 +45,7 @@ class Map:
                         lanes = int(lanes)
 #             lanes = row.get('lanes', 1)  # Default to 1 if not present
             road_name = row.get('name', 'Unknown')  # Replace 'name' with the actual field for road names
-            road_length = row['geometry'].length  # Calculate the length of the road
+            road_length = row.get('length', 0)  # Replace 'length' with the actual field name if different
             road = Road(road_num, end1, end2, end_locations, traffic_flow, max_speed, lanes, road_name, road_length)
             roads.append(road)
         return roads
