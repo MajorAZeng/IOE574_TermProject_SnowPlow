@@ -80,7 +80,9 @@ def Generate_Trips(Map, ori_path, des_path):
             'return_distance': min_distance
         }, ignore_index=True)
 
-        all_trips_df = all_trips_df.append(return_trip, ignore_index=True)
+        #all_trips_df = all_trips_df.append(return_trip, ignore_index=True)
+        # we got a concat issue, so have to use that
+        all_trips_df = pd.concat([all_trips_df, return_trip], ignore_index=True)
 
     # Return the DataFrame with all trip data to Map
     Map.trips = all_trips_df
