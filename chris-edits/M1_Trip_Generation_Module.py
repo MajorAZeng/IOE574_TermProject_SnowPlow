@@ -30,6 +30,12 @@ def Generate_Trips(Map, ori_path, des_path):
     #def find_shortest_path(graph, source, target):
     #    return nx.shortest_path(graph, source=source, target=target)
 
+
+# ...
+
+# Replace the line where you add the shortest_path to new_trip_data with the following:
+#'shortest_path': shortest_path,
+
     # Generate random trips
     trips = []
 
@@ -51,11 +57,19 @@ def Generate_Trips(Map, ori_path, des_path):
             end_node = nearest_node(G, end_point)
 
             
-            # path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
-            shortest_path = nx.dijkstra_path(G, source=start_node, target = end_node)
-            shortest_path_edges = []
-            for i in range(len(shortest_path) - 1):
-                shortest_path_edges.append((shortest_path[i], shortest_path[i+1]))
+            def find_shortest_path(graph, source, target):
+                path = nx.dijkstra_path(graph, source=source, target=target)
+                return [(path[i], path[i+1]) for i in range(len(path) - 1)]
+
+
+# Replace the line where you call nx.dijkstra_path with the find_shortest_path function
+            shortest_path = find_shortest_path(G, start_node, end_node)
+
+            # # path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
+            # shortest_path = nx.dijkstra_path(G, source=start_node, target = end_node)
+            # shortest_path_edges = []
+            # for i in range(len(shortest_path) - 1):
+            #     shortest_path_edges.append((shortest_path[i], shortest_path[i+1]))
 
             #shortest_path_edges = list(nx.utils.pairwise(shortest_path))
             #if path_distance < min_distance:
@@ -70,7 +84,7 @@ def Generate_Trips(Map, ori_path, des_path):
             'start_longitude': closest_destination.longitude,
             'destination_latitude': location.latitude,
             'destination_longitude': location.longitude,
-            'shortest_path': shortest_path_edges,
+            'shortest_path': shortest_path,
             'duration': trip_duration
         }
 
@@ -80,7 +94,7 @@ def Generate_Trips(Map, ori_path, des_path):
             'start_longitude': location.longitude,
             'destination_latitude': closest_destination.latitude,
             'destination_longitude': closest_destination.longitude,
-            'shortest_path': shortest_path_edges,
+            'shortest_path': shortest_path,
             'duration': trip_duration,
         }
 
