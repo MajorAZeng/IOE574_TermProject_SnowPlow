@@ -43,7 +43,9 @@ def Generate_Trips(Map, ori_path, des_path):
 
     # Create a DataFrame to store all trip data
     all_trips_df = pd.DataFrame(columns=['start_latitude', 'start_longitude', 'destination_latitude', 'destination_longitude', 'shortest_path', 'duration'])
-
+    def find_shortest_path(graph, source, target):
+        path = nx.dijkstra_path(graph, source=source, target=target)
+        return [(path[i], path[i+1]) for i in range(len(path) - 1)]
     # Generate trips
     for location in selected_households.itertuples():
         start_point = Point(location.longitude, location.latitude)
@@ -56,14 +58,7 @@ def Generate_Trips(Map, ori_path, des_path):
             end_point = Point(destination.longitude, destination.latitude)
             end_node = nearest_node(G, end_point)
 
-            
-            def find_shortest_path(graph, source, target):
-                path = nx.dijkstra_path(graph, source=source, target=target)
-                return [(path[i], path[i+1]) for i in range(len(path) - 1)]
-
-
-# Replace the line where you call nx.dijkstra_path with the find_shortest_path function
-            shortest_path = find_shortest_path(G, start_node, end_node)
+        shortest_path = find_shortest_path(G, start_node, end_node)
 
             # # path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
             # shortest_path = nx.dijkstra_path(G, source=start_node, target = end_node)
