@@ -44,7 +44,9 @@ class Map:
                         # If there's only one value, convert it directly to int
                         lanes = int(lanes)
 #             lanes = row.get('lanes', 1)  # Default to 1 if not present
-            road = Road(road_num, end1, end2, end_locations, traffic_flow, max_speed, lanes)
+            road_name = row.get('name', 'Unknown')  # Replace 'name' with the actual field for road names
+            road_length = row['geometry'].length  # Calculate the length of the road
+            road = Road(road_num, end1, end2, end_locations, traffic_flow, max_speed, lanes, road_name, road_length)
             roads.append(road)
         return roads
 
@@ -72,6 +74,8 @@ class Road:
         self.max_speed = max_speed
         self.current_speed = max_speed
         self.lanes = lanes
+        self.name = name
+        self.length = length
         self.is_plowed = True  # Assume road is initially plowed
         self.kj = 220  # Jam density (vehicles per mile per lane)
 
