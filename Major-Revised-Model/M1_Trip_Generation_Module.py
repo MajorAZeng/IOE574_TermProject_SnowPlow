@@ -8,7 +8,6 @@ from shapely.geometry import Point
 from sklearn.neighbors import BallTree
 import numpy as np
 import random
-from geopy.distance import geodesic
 
 
 def Generate_Trips(Map, ori_path, des_path):
