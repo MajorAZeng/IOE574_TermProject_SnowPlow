@@ -83,6 +83,9 @@ def Generate_Trips(Map, ori_path, des_path):
         # Convert the dictionary to a DataFrame
         new_trip_df = pd.DataFrame(new_trip_data, index=[0])
 
+        # convert return trip dictionary to DataFrame
+        return_trip_df = pd.DataFrame(return_trip, index=[0])
+
         # Concatenate DataFrames
         all_trips_df = pd.concat([all_trips_df, new_trip_df], ignore_index=True)
 
@@ -100,7 +103,7 @@ def Generate_Trips(Map, ori_path, des_path):
 
         #all_trips_df = all_trips_df.append(return_trip, ignore_index=True)
         # we got a concat issue, so have to use that
-        all_trips_df = pd.concat([all_trips_df, return_trip], ignore_index=True)
+        all_trips_df = pd.concat([all_trips_df, return_trip_df], ignore_index=True)
 
     # Return the DataFrame with all trip data to Map
     Map.trips = all_trips_df
