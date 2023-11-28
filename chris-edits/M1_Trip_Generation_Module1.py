@@ -61,84 +61,84 @@ def Generate_Trips(Map, ori_path, des_path):
     # Load the graph from the map-
     G = Map.graph
 
-# Create a list to store all trips
-# Generate random trips
-trips = []
+    # Create a list to store all trips
+    # Generate random trips
+    trips = []
 
-selected_households = locations.sample(n=3830)
+    selected_households = locations.sample(n=3830)
 
-# Create a DataFrame to store all trip data
-all_trips_df = pd.DataFrame(columns=['start_latitude', 'start_longitude', 'destination_latitude', 'destination_longitude', 'shortest_path', 'duration'])
+    # Create a DataFrame to store all trip data
+    all_trips_df = pd.DataFrame(columns=['start_latitude', 'start_longitude', 'destination_latitude', 'destination_longitude', 'shortest_path', 'duration'])
 
-# Define finding the nearest node in the graph
-def nearest_node(graph, point):
-    pos = {node: (data['geometry'][0], data['geometry'][1]) for node, data in graph.nodes(data=True)}
-    tree = BallTree(np.array(list(pos.values())))
-    dist, ind = tree.query([[point.x, point.y]], k=1)
-    return list(pos.keys())[ind[0][0]]
+    # Define finding the nearest node in the graph
+    def nearest_node(graph, point):
+        pos = {node: (data['geometry'][0], data['geometry'][1]) for node, data in graph.nodes(data=True)}
+        tree = BallTree(np.array(list(pos.values())))
+        dist, ind = tree.query([[point.x, point.y]], k=1)
+        return list(pos.keys())[ind[0][0]]
 
-# Define finding the shortest path between two points
-def find_shortest_path(graph, source, target):
-    path = nx.dijkstra_path(graph, source=source, target=target)
-    return [(path[i], path[i+1]) for i in range(len(path) - 1)]
+    # Define finding the shortest path between two points
+    def find_shortest_path(graph, source, target):
+        path = nx.dijkstra_path(graph, source=source, target=target)
+        return [(path[i], path[i+1]) for i in range(len(path) - 1)]
 
-# Generate trips
-for location in selected_households.itertuples():
-    start_point = Point(location.longitude, location.latitude)
-    start_node = nearest_node(G, start_point)
+    # Generate trips
+    for location in selected_households.itertuples():
+        start_point = Point(location.longitude, location.latitude)
+        start_node = nearest_node(G, start_point)
 
-    closest_destination = None
-    min_distance = float('inf')
+        closest_destination = None
+        min_distance = float('inf')
 
-    for destination in destinations.itertuples():
-        end_point = Point(destination.longitude, destination.latitude)
+        for destination in destinations.itertuples():
+            end_point = Point(destination.longitude, destination.latitude)
+            end_node = nearest_node(G, end_point)
+
+            path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
+
+            if path_distance < min_distance:
+                min_distance = path_distance
+                closest_destination = destination
+
+        end_point = Point(closest_destination.longitude, closest_destination.latitude)
         end_node = nearest_node(G, end_point)
+        shortest_path = find_shortest_path(G, start_node, end_node)
 
-        path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
+        # Generate random trip duration with an average of 20 minutes
+        trip_duration = max(1, round(random.normalvariate(20, 5)))
 
-        if path_distance < min_distance:
-            min_distance = path_distance
-            closest_destination = destination
+        # Create a return trip with the same locations but reversed
+        return_trip = {
+            'start_latitude': closest_destination.latitude,
+            'start_longitude': closest_destination.longitude,
+            'destination_latitude': location.latitude,
+            'destination_longitude': location.longitude,
+            'shortest_path': shortest_path,
+            'duration': trip_duration
+        }
 
-    end_point = Point(closest_destination.longitude, closest_destination.latitude)
-    end_node = nearest_node(G, end_point)
-    shortest_path = find_shortest_path(G, start_node, end_node)
+        # Add the trip and return trip data to the DataFrame
+        new_trip_data = {
+            'start_latitude': location.latitude,
+            'start_longitude': location.longitude,
+            'destination_latitude': closest_destination.latitude,
+            'destination_longitude': closest_destination.longitude,
+            'shortest_path': shortest_path,
+            'duration': trip_duration,
+        }
 
-    # Generate random trip duration with an average of 20 minutes
-    trip_duration = max(1, round(random.normalvariate(20, 5)))
+        # Convert the dictionary to a DataFrame
+        new_trip_df = pd.DataFrame(new_trip_data, index=[0])
 
-    # Create a return trip with the same locations but reversed
-    return_trip = {
-        'start_latitude': closest_destination.latitude,
-        'start_longitude': closest_destination.longitude,
-        'destination_latitude': location.latitude,
-        'destination_longitude': location.longitude,
-        'shortest_path': shortest_path,
-        'duration': trip_duration
-    }
+        # convert return trip dictionary to DataFrame
+        return_trip_df = pd.DataFrame(return_trip, index=[0])
 
-    # Add the trip and return trip data to the DataFrame
-    new_trip_data = {
-        'start_latitude': location.latitude,
-        'start_longitude': location.longitude,
-        'destination_latitude': closest_destination.latitude,
-        'destination_longitude': closest_destination.longitude,
-        'shortest_path': shortest_path,
-        'duration': trip_duration,
-    }
+        # Concatenate DataFrames
+        all_trips_df = pd.concat([all_trips_df, new_trip_df], ignore_index=True)
 
-    # Convert the dictionary to a DataFrame
-    new_trip_df = pd.DataFrame(new_trip_data, index=[0])
+        #all_trips_df = all_trips_df.append(return_trip, ignore_index=True)
+        # we got a concat issue, so have to use that
+        all_trips_df = pd.concat([all_trips_df, return_trip_df], ignore_index=True)
 
-    # convert return trip dictionary to DataFrame
-    return_trip_df = pd.DataFrame(return_trip, index=[0])
-
-    # Concatenate DataFrames
-    all_trips_df = pd.concat([all_trips_df, new_trip_df], ignore_index=True)
-
-    #all_trips_df = all_trips_df.append(return_trip, ignore_index=True)
-    # we got a concat issue, so have to use that
-    all_trips_df = pd.concat([all_trips_df, return_trip_df], ignore_index=True)
-
-# Return the DataFrame with all trip data to Map
-Map.trips = all_trips_df
+    # Return the DataFrame with all trip data to Map
+    Map.trips = all_trips_df
