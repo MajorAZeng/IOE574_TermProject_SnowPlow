@@ -51,11 +51,11 @@ def Generate_Trips(Map, ori_path, des_path):
             end_node = nearest_node(G, end_point)
 
             
-            #path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
+            path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
             shortest_path = find_shortest_path(G, source=start_node, target = end_node)
-            #if path_distance < min_distance:
-            #    min_distance = path_distance
-            #    closest_destination = destination
+            if path_distance < min_distance:
+                min_distance = path_distance
+                closest_destination = destination
 
         # Generate random trip duration with an average of 20 minutes
         trip_duration = max(1, round(random.normalvariate(20, 5)))
