@@ -51,8 +51,9 @@ def Generate_Trips(Map, ori_path, des_path):
             end_node = nearest_node(G, end_point)
 
             
-            path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
+            # path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
             shortest_path = nx.shortest_path(G, source=start_node, target = end_node)
+            shortest_path_edges = list(nx.utils.pairwise(shortest_path))
             if path_distance < min_distance:
                 min_distance = path_distance
                 closest_destination = destination
@@ -65,7 +66,7 @@ def Generate_Trips(Map, ori_path, des_path):
             'start_longitude': closest_destination.longitude,
             'destination_latitude': location.latitude,
             'destination_longitude': location.longitude,
-            'shortest_path': shortest_path,
+            'shortest_path': shortest_path_edges,
             'duration': trip_duration
         }
 
@@ -75,7 +76,7 @@ def Generate_Trips(Map, ori_path, des_path):
             'start_longitude': location.longitude,
             'destination_latitude': closest_destination.latitude,
             'destination_longitude': closest_destination.longitude,
-            'shortest_path': shortest_path,
+            'shortest_path': shortest_path_edges,
             'duration': trip_duration,
         }
 
