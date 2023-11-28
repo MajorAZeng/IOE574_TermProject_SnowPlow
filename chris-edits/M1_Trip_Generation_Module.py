@@ -27,8 +27,8 @@ def Generate_Trips(Map, ori_path, des_path):
         return list(pos.keys())[ind[0][0]]
 
     # Function to find the shortest path between two points
-    def find_shortest_path(graph, source, target):
-        return nx.shortest_path(graph, source=source, target=target)
+    #def find_shortest_path(graph, source, target):
+    #    return nx.shortest_path(graph, source=source, target=target)
 
     # Generate random trips
     trips = []
@@ -52,7 +52,7 @@ def Generate_Trips(Map, ori_path, des_path):
 
             
             path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
-            shortest_path = find_shortest_path(G, source=start_node, target = end_node)
+            shortest_path = nx.shortest_path(G, source=start_node, target = end_node)
             if path_distance < min_distance:
                 min_distance = path_distance
                 closest_destination = destination
