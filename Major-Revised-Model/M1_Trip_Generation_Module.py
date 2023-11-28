@@ -70,6 +70,23 @@ def Generate_Trips(Map, ori_path, des_path):
         }
 
         # Add the trip and return trip data to the DataFrame
+        new_trip_data = {
+            'start_latitude': location.latitude,
+            'start_longitude': location.longitude,
+            'destination_latitude': closest_destination.latitude,
+            'destination_longitude': closest_destination.longitude,
+            'distance': min_distance,
+            'duration': trip_duration,
+            'return_distance': min_distance
+}
+
+        # Convert the dictionary to a DataFrame
+        new_trip_df = pd.DataFrame(new_trip_data, index=[0])
+
+        # Concatenate DataFrames
+        all_trips_df = pd.concat([all_trips_df, new_trip_df], ignore_index=True)
+
+        '''
         all_trips_df = all_trips_df.append({
             'start_latitude': location.latitude,
             'start_longitude': location.longitude,
@@ -79,6 +96,7 @@ def Generate_Trips(Map, ori_path, des_path):
             'duration': trip_duration,
             'return_distance': min_distance
         }, ignore_index=True)
+        '''
 
         #all_trips_df = all_trips_df.append(return_trip, ignore_index=True)
         # we got a concat issue, so have to use that
