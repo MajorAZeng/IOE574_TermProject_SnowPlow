@@ -1,45 +1,77 @@
 # Chris
 # Major Revised
-
-import pandas as pd
 import geopandas as gpd
-from sklearn.preprocessing import FunctionTransformer
-from shapely.geometry import Point
+import pandas as pd
 import numpy as np
+import networkx as nx
+from scipy.stats import norm
+from shapely.geometry import Point
 
-def Generate_Trips(map_file, origins, destinations):
-    # Load the .gpkg map file
-    map_df = gpd.read_file(map_file)
+def Generate_Trips(Map, origins_file, destinations_file):
+    # Read the map file
+    graph = Map.graph
+
+    # Read origin and destination CSV files
+    origins = pd.read_csv(ori_path, names=['longitude', 'latitude'])
+    destinations = pd.read_csv(des_path, names=['longitude', 'latitude'])
+
+
+    trips_data = []
+    for idx, origin in origins.iterrows():
+        # Convert origin and destination latitudes and longitudes to Points
+        origin_point = Point(origin['longitude'], origin['latitude'])
+
+        # Find the closest node in the graph to the origin
+        origin_node = nearest_node(graph, origin_point)
+
+        # Initialize variables to hold closest destination and shortest path
+        closest_destination = None
+        shortest_path = None
+        shortest_distance = float('inf')
+
+        for idx, destination in destinations.iterrows():
+            # Convert destination latitudes and longitudes to Points
+            dest_point = Point(destination['longitude'], destination['latitude'])
+
+            # Find the closest node in the graph to the destination
+            dest_node = nearest_node(graph, dest_point)
+
+            # Compute shortest path between origin_node and dest_node
+            path = nx.shortest_path(graph, origin_node, dest_node, weight='distance')
+            distance = nx.shortest_path_length(graph, origin_node, dest_node, weight='distance')
+
+            # Update closest destination and shortest path if this destination is closer
+            if distance < shortest_distance:
+                shortest_distance = distance
+                closest_destination = dest_node
+                shortest_path = path
+
+        # Generate random duration for the trip
+        duration = max(0, np.random.normal(20, 5))
+
+        # Append trip data to trips_data list
+        trips_data.append({
+            'origin_latitude': origin['latitude'],
+            'origin_longitude': origin['longitude'],
+            'destination_latitude': destinations.loc[closest_destination]['latitude'],
+            'destination_longitude': destinations.loc[closest_destination]['longitude'],
+            'shortest_path': shortest_path,
+            'duration': duration
+        })
+
+    # Create DataFrame from trips_data
+    trips_df = pd.DataFrame(trips_data)
+
     
-    # Convert the .csv of origins and destinations to dataframes
-    origins_df = pd.read_csv(origins)
-    destinations_df = pd.read_csv(destinations)
-    
-    # Function to generate a trip between a pair of points
-    def generate_trip(row):
-        origin = Point(row['longitude_origin'], row['latitude_origin'])
-        destination = Point(row['longitude_destination'], row['latitude_destination'])
-        
-        # Find the closest nodes in the map to the origin and destination
-        closest_origin_node = map_df[map_df.geometry == map_df.geometry.nearest(origin)].iloc[0]
-        closest_destination_node = map_df[map_df.geometry == map_df.geometry.nearest(destination)].iloc[0]
-        
-        # Calculate the shortest path between the origin node and the destination node
-        shortest_path = calculate_shortest_path(map_df, closest_origin_node, closest_destination_node)
-        
-        # Randomly generate duration for each trip with mean 20 and standard deviation 5
-        duration = np.random.normal(20, 5)
-        
-        return pd.Series([row['longitude_origin'], row['latitude_origin'], row['longitude_destination'], row['latitude_destination'], shortest_path, duration])
-    
-    # Generate trips for each pair of origins and destinations
-    trips_df = origins_df.apply(lambda row: generate_trip(row), axis=1)
-    
-    # Reset the index of the dataframe and rename the columns
-    trips_df = trips_df.reset_index(drop=True)
-    trips_df.columns = ['longitude_origin', 'latitude_origin', 'longitude_destination', 'latitude_destination', 'shortest_path', 'duration']
-    
-    Map.trips = trips_df
+
+def nearest_node(graph, point):
+    # Find the nearest node in the graph to the given point
+    distances = {}
+    for idx, row in graph.iterrows():
+        node = row.geometry
+        distances[idx] = node.distance(point)
+    closest_node_idx = min(distances, key=distances.get)
+    return closest_node_idx
 
 
 '''
