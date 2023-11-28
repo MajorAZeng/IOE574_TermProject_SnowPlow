@@ -1,80 +1,6 @@
 # Chris
 # Major Revised
-import geopandas as gpd
-import pandas as pd
-import numpy as np
-import networkx as nx
-from scipy.stats import norm
-from shapely.geometry import Point
 
-def Generate_Trips(Map, origins_file, destinations_file):
-    # Read the map file
-    graph = Map.graph
-
-    # Read origin and destination CSV files
-    origins = pd.read_csv(origins_file, names=['longitude', 'latitude'])
-    destinations = pd.read_csv(destinations_file, names=['longitude', 'latitude'])
-
-
-    trips_data = []
-    for idx, origin in origins.itertuples():
-        # Convert origin and destination latitudes and longitudes to Points
-        origin_point = Point(origin['longitude'], origin['latitude'])
-
-        # Find the closest node in the graph to the origin
-        origin_node = nearest_node(graph, origin_point)
-
-        # Initialize variables to hold closest destination and shortest path
-        closest_destination = None
-        shortest_path = None
-        shortest_distance = float('inf')
-
-        for idx, destination in destinations.itertuples():
-            # Convert destination latitudes and longitudes to Points
-            dest_point = Point(destination['longitude'], destination['latitude'])
-
-            # Find the closest node in the graph to the destination
-            dest_node = nearest_node(graph, dest_point)
-
-            # Compute shortest path between origin_node and dest_node
-            path = nx.shortest_path(graph, origin_node, dest_node, weight='distance')
-            distance = nx.shortest_path_length(graph, origin_node, dest_node, weight='distance')
-
-            # Update closest destination and shortest path if this destination is closer
-            if distance < shortest_distance:
-                shortest_distance = distance
-                closest_destination = dest_node
-                shortest_path = path
-
-        # Generate random duration for the trip
-        duration = max(0, np.random.normal(20, 5))
-
-        # Append trip data to trips_data list
-        trips_data.append({
-            'origin_latitude': origin['latitude'],
-            'origin_longitude': origin['longitude'],
-            'destination_latitude': destinations.loc[closest_destination]['latitude'],
-            'destination_longitude': destinations.loc[closest_destination]['longitude'],
-            'shortest_path': shortest_path,
-            'duration': duration
-        })
-
-    # Create DataFrame from trips_data
-    trips_df = pd.DataFrame(trips_data)
-
-    
-
-def nearest_node(graph, point):
-    # Find the nearest node in the graph to the given point
-    distances = {}
-    for idx, row in graph.iterrows():
-        node = row.geometry
-        distances[idx] = node.distance(point)
-    closest_node_idx = min(distances, key=distances.get)
-    return closest_node_idx
-
-
-'''
 import geopandas as gpd
 import networkx as nx
 import pandas as pd
@@ -174,4 +100,3 @@ def Generate_Trips(Map, ori_path, des_path):
 
     # Return the DataFrame with all trip data to Map
     Map.trips = all_trips_df
-'''
