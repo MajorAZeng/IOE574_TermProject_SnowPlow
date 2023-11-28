@@ -8,6 +8,7 @@ from shapely.geometry import Point
 from sklearn.neighbors import BallTree
 import numpy as np
 import random
+from geopy.distance import geodesic
 
 
 def Generate_Trips(Map, ori_path, des_path):
@@ -36,7 +37,7 @@ def Generate_Trips(Map, ori_path, des_path):
     selected_households = locations.sample(n=3830)
 
     # Create a DataFrame to store all trip data
-    all_trips_df = pd.DataFrame(columns=['start_latitude', 'start_longitude', 'destination_latitude', 'destination_longitude', 'distance', 'duration', 'return_distance'])
+    all_trips_df = pd.DataFrame(columns=['start_latitude', 'start_longitude', 'destination_latitude', 'destination_longitude', 'shortest_path', 'duration', 'shortest_return_path'])
 
     # Generate trips
     for location in selected_households.itertuples():
@@ -51,11 +52,11 @@ def Generate_Trips(Map, ori_path, des_path):
             end_node = nearest_node(G, end_point)
 
             
-            path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
-
-            if path_distance < min_distance:
-                min_distance = path_distance
-                closest_destination = destination
+            #path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
+            shortest_path = find_shortest_path(G, source=start_node, target = end_node)
+            #if path_distance < min_distance:
+            #    min_distance = path_distance
+            #    closest_destination = destination
 
         # Generate random trip duration with an average of 20 minutes
         trip_duration = max(1, round(random.normalvariate(20, 5)))
@@ -65,9 +66,9 @@ def Generate_Trips(Map, ori_path, des_path):
             'start_longitude': closest_destination.longitude,
             'destination_latitude': location.latitude,
             'destination_longitude': location.longitude,
-            'distance': min_distance,
+            'shortest_path': shortest_path,
             'duration': trip_duration,
-            'return_distance': min_distance  # Assuming return distance is the same as the original trip distance
+            'shortest_return_path': shortest_path  # Assuming return distance is the same as the original trip distance
         }
 
         # Add the trip and return trip data to the DataFrame
@@ -76,10 +77,10 @@ def Generate_Trips(Map, ori_path, des_path):
             'start_longitude': location.longitude,
             'destination_latitude': closest_destination.latitude,
             'destination_longitude': closest_destination.longitude,
-            'distance': min_distance,
+            'shortest_path': shortest_path,
             'duration': trip_duration,
-            'return_distance': min_distance
-}
+            'shortest_return_path': shortest_path
+        }
 
         # Convert the dictionary to a DataFrame
         new_trip_df = pd.DataFrame(new_trip_data, index=[0])
@@ -89,18 +90,6 @@ def Generate_Trips(Map, ori_path, des_path):
 
         # Concatenate DataFrames
         all_trips_df = pd.concat([all_trips_df, new_trip_df], ignore_index=True)
-
-        '''
-        all_trips_df = all_trips_df.append({
-            'start_latitude': location.latitude,
-            'start_longitude': location.longitude,
-            'destination_latitude': closest_destination.latitude,
-            'destination_longitude': closest_destination.longitude,
-            'distance': min_distance,
-            'duration': trip_duration,
-            'return_distance': min_distance
-        }, ignore_index=True)
-        '''
 
         #all_trips_df = all_trips_df.append(return_trip, ignore_index=True)
         # we got a concat issue, so have to use that
