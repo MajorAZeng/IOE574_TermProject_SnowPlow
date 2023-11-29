@@ -52,32 +52,24 @@ def Generate_Trips(Map, ori_path, des_path):
             if path_distance < min_distance:
                 min_distance = path_distance
                 closest_destination = destination
-
-        # Find shortest path to and from the store
+        
         end_node = nearest_node(G, Point(closest_destination.longitude, closest_destination.latitude))
         path_to_store = find_shortest_path(G, start_node, end_node)
         path_from_store = find_shortest_path(G, end_node, start_node)
         
         # Generate random trip duration with an average of 20 minutes
         trip_duration = max(1, round(random.normalvariate(20, 5)))
-        # Create a return trip with the same locations but reversed
-        return_trip = {
-            'start_latitude': closest_destination.latitude,
-            'start_longitude': closest_destination.longitude,
-            'destination_latitude': location.latitude,
-            'destination_longitude': location.longitude,
-            'shortest_path': path_from_store,
-            'duration': trip_duration
-        }
-        Map.trips.append(return_trip)
-
-        # Add the trip and return trip data to the DataFrame
-        new_trip_data = {
+        # Generate trip start times
+        trip_start_time = np.random.triangular(0, 360, 720)
+        
+        trip_data = {
             'start_latitude': location.latitude,
             'start_longitude': location.longitude,
             'destination_latitude': closest_destination.latitude,
             'destination_longitude': closest_destination.longitude,
-            'shortest_path': path_to_store,
+            'path_to_store': path_to_store,
+            'path_from_store': path_from_store,
             'duration': trip_duration,
+            'trip_start_time': trip_start_time
         }
-        Map.trips.append(new_trip_data)
+        Map.trips.append(trip_data)
