@@ -35,9 +35,6 @@ def Generate_Trips(Map, ori_path, des_path):
 
     selected_households = locations.sample(n=3830)
 
-    # Create a DataFrame to store all trip data
-    all_trips_df = pd.DataFrame(columns=['start_latitude', 'start_longitude', 'destination_latitude', 'destination_longitude', 'duration'])
-
     # Generate trips
     for location in selected_households.itertuples():
         start_point = Point(location.longitude, location.latitude)
@@ -56,6 +53,11 @@ def Generate_Trips(Map, ori_path, des_path):
                 min_distance = path_distance
                 closest_destination = destination
 
+        # Find shortest path to and from the store
+        end_node = nearest_node(G, Point(closest_destination.longitude, closest_destination.latitude))
+        path_to_store = find_shortest_path(G, start_node, end_node)
+        path_from_store = find_shortest_path(G, end_node, start_node)
+        
         # Generate random trip duration with an average of 20 minutes
         trip_duration = max(1, round(random.normalvariate(20, 5)))
         # Create a return trip with the same locations but reversed
@@ -64,8 +66,10 @@ def Generate_Trips(Map, ori_path, des_path):
             'start_longitude': closest_destination.longitude,
             'destination_latitude': location.latitude,
             'destination_longitude': location.longitude,
+            'shortest_path': path_from_store,
             'duration': trip_duration
         }
+        Map.trips.append(return_trip)
 
         # Add the trip and return trip data to the DataFrame
         new_trip_data = {
@@ -73,21 +77,7 @@ def Generate_Trips(Map, ori_path, des_path):
             'start_longitude': location.longitude,
             'destination_latitude': closest_destination.latitude,
             'destination_longitude': closest_destination.longitude,
+            'shortest_path': path_to_store,
             'duration': trip_duration,
         }
-
-        # Convert the dictionary to a DataFrame
-        new_trip_df = pd.DataFrame(new_trip_data, index=[0])
-
-        # convert return trip dictionary to DataFrame
-        return_trip_df = pd.DataFrame(return_trip, index=[0])
-
-        # Concatenate DataFrames
-        all_trips_df = pd.concat([all_trips_df, new_trip_df], ignore_index=True)
-
-        #all_trips_df = all_trips_df.append(return_trip, ignore_index=True)
-        # we got a concat issue, so have to use that
-        all_trips_df = pd.concat([all_trips_df, return_trip_df], ignore_index=True)
-
-    # Return the DataFrame with all trip data to Map
-    Map.trips = all_trips_df
+        Map.trips.append(new_trip_data)
