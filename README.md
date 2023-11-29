@@ -19,3 +19,8 @@ UMich North Campus 281
 Community High: 14, 288, 123, 186
 Pioneer High: 381, 95, 352, 141
 Huron High: 35, 131
+
+# Number of households who go to the grocery store on a given day:
+26820 total households
+The average household goes to the grocery 1.6 times per week
+Total number of households that go to the grocery every day: 6130
