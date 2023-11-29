@@ -13,8 +13,8 @@ import random
 def Generate_Trips(Map, ori_path, des_path):
 
     # Load your locations and destinations from CSV files
-    locations = pd.read_csv(ori_path, names=['longitude', 'latitude'])
-    destinations = pd.read_csv(des_path, names=['longitude', 'latitude'])
+    locations = pd.read_csv(ori_path, names=['latitude', 'longitude'])
+    destinations = pd.read_csv(des_path, names=['latitude', 'longitude'])
 
     # Load the graph from the map-
     G = Map.graph
@@ -36,7 +36,7 @@ def Generate_Trips(Map, ori_path, des_path):
     selected_households = locations.sample(n=3830)
 
     # Create a DataFrame to store all trip data
-    all_trips_df = pd.DataFrame(columns=['start_latitude', 'start_longitude', 'destination_latitude', 'destination_longitude', 'shortest_path', 'duration'])
+    all_trips_df = pd.DataFrame(columns=['start_latitude', 'start_longitude', 'destination_latitude', 'destination_longitude', 'duration'])
 
     # Generate trips
     for location in selected_households.itertuples():
@@ -52,7 +52,6 @@ def Generate_Trips(Map, ori_path, des_path):
 
             
             path_distance = nx.shortest_path_length(G, source=start_node, target=end_node, weight='length')
-            shortest_path = find_shortest_path(G, source=start_node, target = end_node)
             if path_distance < min_distance:
                 min_distance = path_distance
                 closest_destination = destination
@@ -65,7 +64,6 @@ def Generate_Trips(Map, ori_path, des_path):
             'start_longitude': closest_destination.longitude,
             'destination_latitude': location.latitude,
             'destination_longitude': location.longitude,
-            'shortest_path': shortest_path,
             'duration': trip_duration
         }
 
@@ -75,7 +73,6 @@ def Generate_Trips(Map, ori_path, des_path):
             'start_longitude': location.longitude,
             'destination_latitude': closest_destination.latitude,
             'destination_longitude': closest_destination.longitude,
-            'shortest_path': shortest_path,
             'duration': trip_duration,
         }
 
