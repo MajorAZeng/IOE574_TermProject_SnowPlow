@@ -50,25 +50,3 @@ def run_snowplow_simulation(num_plows, start_nodes, plow_speed, map_instance, du
 
     return snowplows
     
-# # Define start nodes for snowplows
-# start_node = 133
-# start_nodes = [133]  # Replace with actual start nodes
-        
-# # Create a Map instance
-# map_instance = Map('AA_Map_Final.gpkg')
-# map_instance.Experience_Snow(4)
-
-# # Initialize snowplows
-# snowplows = [Snowplow(start_node, map_instance) for start_node in start_nodes]
-
-# # Simulate snowplowing
-# current_time = datetime.now()
-# for _ in range(100):  # Number of iterations
-#     for plow in snowplows:
-#         travel_time = plow.plow()
-#         # Here you can update current_time based on travel_time if needed    
-
-# # Example usage
-# map_info_path = 'AA_Map_Final.gpkg'
-# snow_depth = 4
-# start_nodes = [1, 2, 3]  # Example start nodes
