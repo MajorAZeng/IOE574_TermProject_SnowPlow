@@ -36,9 +36,9 @@ def run_snowplow_simulation(num_plows, start_nodes, plow_speed, map_instance, du
     current_time = 0  # Start at time 0
     
     # Print initial conditions
-    print(f"Starting simulation with {num_plows} snowplows")
-    for i, plow in enumerate(snowplows):
-        print(f"Snowplow {i+1} starting at node {plow['current_node']}")
+    # print(f"Starting simulation with {num_plows} snowplows")
+    # for i, plow in enumerate(snowplows):
+    #     print(f"Snowplow {i+1} starting at node {plow['current_node']}")
 
     while current_time < duration_minutes:  # Direct comparison with minutes
         for plow in snowplows:
@@ -51,7 +51,7 @@ def run_snowplow_simulation(num_plows, start_nodes, plow_speed, map_instance, du
                 if map_instance.roads.loc[map_instance.roads['road_id'] == road_id, 'plow_time'].iloc[0] == np.inf:
                     # Update road plow_time and print the update
                     map_instance.roads.loc[map_instance.roads['road_id'] == road_id, 'plow_time'] = current_time
-                    print(f"Updated Road ID {road_id} plow_time to {current_time} minutes")
+                    # print(f"Updated Road ID {road_id} plow_time to {current_time} minutes")
 
                 # Update snowplow position and plowed edges
                 plow['current_node'] = edge[1] if plow['current_node'] == edge[0] else edge[0]
