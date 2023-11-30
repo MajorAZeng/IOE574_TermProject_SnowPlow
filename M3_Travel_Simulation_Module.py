@@ -36,8 +36,8 @@ def Run_Travel_Simulation(M):
             else:
                 time_on_road = 60*road['length']/road['speed_after_snow']
             current_time += time_on_road
-        
-        trip_durations.append(current_time - trip['trip_start_time'])
+
+        trip_durations.append(current_time - trip['trip_start_time'] - trip['duration'])
     
     
     return trip_durations
