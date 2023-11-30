@@ -38,7 +38,8 @@ def Run_Travel_Simulation(M):
             current_time += time_on_road
         
         trip_durations.append(current_time - trip['trip_start_time'])
-
+    
+    
     return trip_durations
 
 # simulate_one_day = run_simulation(M, graph)

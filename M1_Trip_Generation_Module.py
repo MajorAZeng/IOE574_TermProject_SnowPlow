@@ -33,7 +33,7 @@ def Generate_Trips(Map, ori_path, des_path):
     # Generate random trips
     trips = []
 
-    selected_households = locations.sample(n=3830)
+    selected_households = locations.sample(n=round(6130/3))
 
     # Generate trips
     for location in selected_households.itertuples():
@@ -59,8 +59,8 @@ def Generate_Trips(Map, ori_path, des_path):
         
         # Generate random trip duration with an average of 20 minutes
         trip_duration = max(1, round(random.normalvariate(20, 5)))
-        # Generate trip start times
-        trip_start_time = np.random.triangular(0, 360, 720)
+        # Generate trip start times (trangular distribution for 4 h)
+        trip_start_time = np.random.triangular(0, 120, 240)
         
         trip_data = {
             'start_latitude': location.latitude,
