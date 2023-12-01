@@ -32,6 +32,7 @@ def Run_Simulation(map_info_path, trip_origin_path, trip_destination_path, simul
         Run_Snowplow_Simulation(plow_num, plow_start_points, plow_speed, M_rep, simulation_hours)
     
         # Module 3
+        # Simulation Travel Time
         travel_time = Run_Travel_Simulation(M_rep)
 
         Travel_Time_Record.append(travel_time)
