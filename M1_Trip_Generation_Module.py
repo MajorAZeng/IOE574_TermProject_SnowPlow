@@ -10,7 +10,7 @@ import numpy as np
 import random
 
 
-def Generate_Trips(Map, ori_path, des_path):
+def Generate_Trips(Map, ori_path, des_path, sim_hours):
 
     # Load your locations and destinations from CSV files
     locations = pd.read_csv(ori_path, names=['latitude', 'longitude'])
@@ -33,7 +33,7 @@ def Generate_Trips(Map, ori_path, des_path):
     # Generate random trips
     trips = []
 
-    selected_households = locations.sample(n=round(6130/3))
+    selected_households = locations.sample(n=round(6130*sim_hours/12))
 
     # Generate trips
     for location in selected_households.itertuples():
@@ -60,7 +60,7 @@ def Generate_Trips(Map, ori_path, des_path):
         # Generate random trip duration with an average of 20 minutes
         trip_duration = max(1, round(random.normalvariate(20, 5)))
         # Generate trip start times (trangular distribution for 4 h)
-        trip_start_time = np.random.triangular(0, 120, 240)
+        trip_start_time = np.random.triangular(0, sim_hours*30, sim_hours*60)
         
         trip_data = {
             'start_latitude': location.latitude,

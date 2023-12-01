@@ -11,7 +11,7 @@ class Map():
     def __init__(self,geopackage_path):
         self.roads = self._load_roads(geopackage_path)
         self.graph = self._load_graph(geopackage_path)
-        self.trips = pd.DataFrame()
+        self.trips = []
         
     def _load_roads(self,geopackage_path):
         # load map info
