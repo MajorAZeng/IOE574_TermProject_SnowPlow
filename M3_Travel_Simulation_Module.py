@@ -7,6 +7,8 @@
 #graph = M.graph
 #Generate_Trips(M, 'your_locations.csv', 'your_destinations.csv')
 
+import numpy as np
+
 def Run_Travel_Simulation(M):
     trip_durations = []
 
@@ -21,9 +23,9 @@ def Run_Travel_Simulation(M):
         for elem in trip['path_to_store']:
             road = M.roads.iloc[elem,]
             if road['plow_time'] < current_time:
-                time_on_road = 60*road['length']/road['normal_speed']
+                time_on_road = 60*road['length']/(0.8*np.random.normal(road['normal_speed'], road['normal_speed']/10))
             else:
-                time_on_road = 60*road['length']/road['speed_after_snow']
+                time_on_road = 60*road['length']/(0.8*np.random.normal(road['speed_after_snow'], road['speed_after_snow']/10))
             current_time += time_on_road
 
         # Add time spent in grocery store to the trip duration
@@ -32,9 +34,9 @@ def Run_Travel_Simulation(M):
         for elem in trip['path_from_store']:
             road = M.roads.iloc[elem,]
             if road['plow_time'] < current_time:
-                time_on_road = 60*road['length']/road['normal_speed']
+                time_on_road = 60*road['length']/(0.8*np.random.normal(road['normal_speed'], road['normal_speed']/10))
             else:
-                time_on_road = 60*road['length']/road['speed_after_snow']
+                time_on_road = 60*road['length']/(0.8*np.random.normal(road['speed_after_snow'], road['speed_after_snow']/10))
             current_time += time_on_road
 
         trip_durations.append(current_time - trip['trip_start_time'] - trip['duration'])
