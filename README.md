@@ -1,6 +1,9 @@
 # IOE574_TermProject_SnowPlow
 IOE574_TermProject_SnowPlow
 
+# Report link:
+https://docs.google.com/document/d/1SGIqCPkZYdZ7TkQLKl9wCcb04u9XeCXol07NJOc08gw/edit?usp=sharing
+
 # Example usage
 num_plows = 3
 start_nodes = [133, 420, 221]  # Example start nodes
