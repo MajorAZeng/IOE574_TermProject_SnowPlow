@@ -32,5 +32,11 @@ Case 3: 4-inch Snow, 1 Plow start from Center of Downtown
 Case 4: 4-inch Snow, 2 Plows start from Center of Downtown
 Case 5: 4-inch Snow, 2 Plows starting from UMich Northcampus and Poineer High
 
-# Number of replications to achieve 1 mintue precision.
+# Changes need to the simulation model
+Run less number of reps - Major 
+Add uncertainty aruond plow speed - Kate
+Add 0 plow situation - Graham and Kate
+Add uncertinaty around travel speed - Riley
+Add a time for each intersection (use difference mean time for with or without snow and a small variation) - Riley
+Add travel time from house to nearest local node (stright distance, 10mph with reduction factor) - Chris 
 
