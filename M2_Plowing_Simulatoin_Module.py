@@ -4,7 +4,10 @@
 import random
 import numpy as np
 
-def Run_Snowplow_Simulation(num_plows, start_nodes, plow_speed, map_instance, sim_hours):
+def Run_Snowplow_Simulation(num_plows, start_nodes, map_instance, sim_hours):
+    if num_plows == 0:
+        return []
+    
     # Ensure there are as many start nodes as plows
     if len(start_nodes) != num_plows:
         raise ValueError("Number of start nodes must match the number of plows")
@@ -41,6 +44,7 @@ def Run_Snowplow_Simulation(num_plows, start_nodes, plow_speed, map_instance, si
 
     while current_time < sim_hours*60:  # Direct comparison with minutes
         for plow in snowplows:
+            plow_speed = max(1, np.random.normal(loc=35, scale=5))
             edge = choose_edge(plow['current_node'])
             if edge:
                 road_id = edge[2]['roadid']
