@@ -42,6 +42,6 @@ Add 0 plow situation - Graham and Kate
 Add uncertinaty around travel speed - Riley
 Add a time for each intersection (use difference mean time for with or without snow and a small variation) - Riley
 Add travel time from house to nearest local node (stright distance, 10mph with reduction factor) - Chris
-    -Changing this slightly to be a random triangular distribution with mean 3 and limits 1 and 7 for no snow and mean 5 and limits 1.5 and 9.5 with snow
+    -Changing this slightly to be a random triangular distribution with mean 3 and limits 1 and 7 and multiplying it by 2 to reflect the way there and the way back
     -Trying to reflect the randomness of the road layout and how living close to a main road doesn't necessarily mean it's fast to get there (e.g. I live <100ft from a main road but it takes ~5 min for me to drive to the main road from my house)
 
