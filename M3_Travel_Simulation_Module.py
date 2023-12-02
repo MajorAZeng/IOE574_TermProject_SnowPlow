@@ -19,13 +19,13 @@ def Run_Travel_Simulation(M):
         #path_from_store = find_shortest_path(graph, nearest_node(graph, Point(trip.destination_longitude, trip.destination_latitude)), nearest_node(graph, Point(trip.start_longitude, trip.start_latitude)))
         
         # Loop through every road taken to store
-        # See if the road has been plowed at the current time and calculate travel time on that road based on the road's condition
+        # See if the road has been plowed at the current time and calculate travel time on that road based on the road's condition adding time for getting from the start location to the nearest node depending on snow presence/absence
         for elem in trip['path_to_store']:
             road = M.roads.iloc[elem,]
             if road['plow_time'] < current_time:
-                time_on_road = 60*road['length']/(0.8*np.random.normal(road['normal_speed'], road['normal_speed']/10))
+                time_on_road = 60*road['length']/(0.8*np.random.normal(road['normal_speed'], road['normal_speed']/10)) + np.random.triangular(1, 3, 7)
             else:
-                time_on_road = 60*road['length']/(0.8*np.random.normal(road['speed_after_snow'], road['speed_after_snow']/10))
+                time_on_road = 60*road['length']/(0.8*np.random.normal(road['speed_after_snow'], road['speed_after_snow']/10)) + np.random.triangular(1.5, 5, 9.5)
             current_time += time_on_road
 
         # Add time spent in grocery store to the trip duration
@@ -34,9 +34,9 @@ def Run_Travel_Simulation(M):
         for elem in trip['path_from_store']:
             road = M.roads.iloc[elem,]
             if road['plow_time'] < current_time:
-                time_on_road = 60*road['length']/(0.8*np.random.normal(road['normal_speed'], road['normal_speed']/10))
+                time_on_road = 60*road['length']/(0.8*np.random.normal(road['normal_speed'], road['normal_speed']/10)) + np.random.triangular(1, 3, 7)
             else:
-                time_on_road = 60*road['length']/(0.8*np.random.normal(road['speed_after_snow'], road['speed_after_snow']/10))
+                time_on_road = 60*road['length']/(0.8*np.random.normal(road['speed_after_snow'], road['speed_after_snow']/10)) + np.random.triangular(1.5, 5, 9.5)
             current_time += time_on_road
 
         trip_durations.append(current_time - trip['trip_start_time'] - trip['duration'])
