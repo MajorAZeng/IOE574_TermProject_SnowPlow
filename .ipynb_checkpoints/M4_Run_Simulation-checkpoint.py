@@ -6,14 +6,15 @@ from M3_Travel_Simulation_Module import Run_Travel_Simulation
 from tqdm import tqdm
 import copy
 
-def Run_Simulation(map_info_path, trip_origin_path, trip_destination_path, simulation_hours,
-                        plow_num, plow_start_points, plow_speed, num_reps):
+def Run_Simulation(map_info_path, trip_origin_path, trip_destination_path, 
+                   snow_depth, simulation_hours,
+                    plow_num, plow_start_points, plow_speed, num_reps):
 
     # Module 0
     # Create a based map
     M = Map(map_info_path)
     # Experience a snow event
-    M.Experience_Snow(6)
+    M.Experience_Snow(snow_depth)
 
     # Module 1
     # Generate trips
@@ -29,7 +30,7 @@ def Run_Simulation(map_info_path, trip_origin_path, trip_destination_path, simul
         
         # Module 2
         # Simulation Plowing Time
-        Run_Snowplow_Simulation(plow_num, plow_start_points, plow_speed, M_rep, simulation_hours)
+        Run_Snowplow_Simulation(plow_num, plow_start_points, M_rep, plow_speed, simulation_hours)
     
         # Module 3
         # Simulation Travel Time
