@@ -1,0 +1,22 @@
+== Setting Up Base Map and Trip Assignment ==
+time: 0.23
+== Run Case 1: No Snow, No Plow ==
+Mean Travel Time: 12.237695871872068
+95 Confidence Precision Width:0.0629646355869983
+time: 0.32
+== Run Case 2: 4in Snow, No Plow ==
+Mean Travel Time: 15.543197102922756
+95 Confidence Precision Width:0.048678880804301126
+time: 0.42
+== Run Case 3: 4in Snow, 1 Plow from Downtown ==
+Mean Travel Time: 12.451016702474885
+95 Confidence Precision Width:0.12334043510771146
+time: 0.92
+== Run Case 4: 4in Snow, 2 Plow from Downtown ==
+Mean Travel Time: 12.474157277195753
+95 Confidence Precision Width:0.09389948524864966
+time: 1.43
+== Run Case 5: 4in Snow, 2 Plow from Two Corners of AA ==
+Mean Travel Time: 12.523169045788773
+95 Confidence Precision Width:0.13718564795276034
+time: 1.94

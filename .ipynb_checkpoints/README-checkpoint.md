@@ -1,6 +1,9 @@
 # IOE574_TermProject_SnowPlow
 IOE574_TermProject_SnowPlow
 
+# Report link:
+https://docs.google.com/document/d/1SGIqCPkZYdZ7TkQLKl9wCcb04u9XeCXol07NJOc08gw/edit?usp=sharing
+
 # Example usage
 num_plows = 3
 start_nodes = [133, 420, 221]  # Example start nodes
@@ -38,5 +41,13 @@ Add uncertainty aruond plow speed - Kate
 Add 0 plow situation - Graham and Kate
 Add uncertinaty around travel speed - Riley
 Add a time for each intersection (use difference mean time for with or without snow and a small variation) - Riley
-Add travel time from house to nearest local node (stright distance, 10mph with reduction factor) - Chris 
+Add travel time from house to nearest local node (stright distance, 10mph with reduction factor) - Chris
+    -Changing this slightly to be a random triangular distribution with mean 3 and limits 1 and 7 and multiplying it by 2 to reflect the way there and the way back
+    -Trying to reflect the randomness of the road layout and how living close to a main road doesn't necessarily mean it's fast to get there (e.g. I live <100ft from a main road but it takes ~5 min for me to drive to the main road from my house)
 
+# Report
+Outline
+https://docs.google.com/document/d/1SGIqCPkZYdZ7TkQLKl9wCcb04u9XeCXol07NJOc08gw/edit
+Report https://docs.google.com/document/d/12sxgXbl0XrnprUHyvgI_8ti5Fjwy0BlCFtqMYyOVJHk/edit#heading=h.c81j1v3jh51x
+Project requirements 
+https://umich.instructure.com/courses/625120/pages/term-project
