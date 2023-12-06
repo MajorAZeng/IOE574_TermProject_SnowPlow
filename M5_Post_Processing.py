@@ -13,9 +13,9 @@ def Mean_Travel_Time_Stats(Travel_Time_Record):
 
 
 # Estimating Half-width
-def Est_Precision(confidence, num_reps, sample_std):
+def Est_Precision_Half_Width(confidence, num_reps, sample_std):
     est_hw = scipy.stats.t.ppf(1-(1-confidence)/2,num_reps-1) * sample_std/np.sqrt(num_reps)
-    return est_hw*2
+    return est_hw
 
 
 # Save to a File
@@ -32,5 +32,11 @@ def Save_To_File(file_name, Record, exist=False):
         # append new record
         new_record = old_record + Record
         # save new record
-        with open(result_file, 'wb') as f:
-            pickle.dump(new_record, f) 
+        with open(file_name, 'wb') as f:
+            pickle.dump(new_record, f)
+
+def Write_Log(log_file_name, new_line):
+    with open(log_file_name, 'a') as file:
+        file.write(new_line + '\n')
+    print(new_line)
+
