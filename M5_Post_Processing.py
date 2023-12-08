@@ -17,7 +17,6 @@ def Est_Precision_Half_Width(confidence, num_reps, sample_std):
     est_hw = scipy.stats.t.ppf(1-(1-confidence)/2,num_reps-1) * sample_std/np.sqrt(num_reps)
     return est_hw
 
-
 # Save to a File
 def Save_To_File(file_name, Record, exist=False):
     # Scratch the file new

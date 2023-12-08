@@ -26,7 +26,7 @@ def Generate_Trips(Map, ori_path, des_path, sim_hours):
         dist, ind = tree.query([[point.x, point.y]], k=1)
         return list(pos.keys())[ind[0][0]]
 
-    # Function to find the shortest path between two points
+    # Function to find the shortest path between two points in the graph
     def find_shortest_path(graph, source, target):
         return nx.shortest_path(graph, source=source, target=target, weight='length')
 
@@ -36,13 +36,17 @@ def Generate_Trips(Map, ori_path, des_path, sim_hours):
     selected_households = locations.sample(n=round(6130*sim_hours/12))
 
     # Generate trips
+    # For each family selected
     for location in selected_households.itertuples():
+
+        # Find the nearest node to their house as starting point on the network.
         start_point = Point(location.longitude, location.latitude)
         start_node = nearest_node(G, start_point)
 
         closest_destination = None
         min_distance = float('inf')
 
+        # Find the store at shortest network distance as their destination.
         for destination in destinations.itertuples():
             end_point = Point(destination.longitude, destination.latitude)
             end_node = nearest_node(G, end_point)
@@ -54,6 +58,8 @@ def Generate_Trips(Map, ori_path, des_path, sim_hours):
                 closest_destination = destination
         
         end_node = nearest_node(G, Point(closest_destination.longitude, closest_destination.latitude))
+
+        # Find shortest path to and from the store
         path_to_store = find_shortest_path(G, start_node, end_node)
         path_from_store = find_shortest_path(G, end_node, start_node)
         
