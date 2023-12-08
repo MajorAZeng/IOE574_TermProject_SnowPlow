@@ -61,9 +61,8 @@ def Run_Case_Simulation(version_name, num_reps,  log_file_name,
 
     # Save Results to Files
     file_name_travel = 'Result_'+version_name+'/Case' + case_num + '_' + str(num_reps) + 'Rep_' + version_name + '_TravelTime.pkl'
-    file_name_plow = 'Result_'+version_name+'/Case' + case_num + '_' + str(num_reps) + 'Rep_' + version_name + '_PlowTime.pkl'
     Save_To_File(file_name_travel, Travel_Time_Record, exist=False)
-    Save_To_File(file_name_plow, Plow_Time_Record, exist=False)
+
     # Calculate Results Statistics
     # Find Means
     mean_tt_per_rep, mean_tt, std_tt = Mean_Travel_Time_Stats(Travel_Time_Record)

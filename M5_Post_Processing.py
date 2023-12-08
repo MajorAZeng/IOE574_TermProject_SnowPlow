@@ -1,6 +1,7 @@
 import numpy as np
 import scipy
 import pickle
+import matplotlib.pyplot as plt
 
 # Mean Travel Time Estimation
 def Mean_Travel_Time_Stats(Travel_Time_Record):
@@ -39,3 +40,16 @@ def Write_Log(log_file_name, new_line):
         file.write(new_line + '\n')
     print(new_line)
 
+def Diff_Travel_Time_Stats (result_1, result_2):
+    # load two sets of results
+    with open(result_1, 'rb') as f:
+        R1 = pickle.load(f)
+    with open(result_2, 'rb') as f:
+        R2 = pickle.load(f)
+    # Find mean travel time each replication
+    mtt_1, _, _ = Mean_Travel_Time_Stats(R1)
+    mtt_2, _, _ = Mean_Travel_Time_Stats(R2)
+    # Diff of mean travel time each replication
+    diff_mean = [x-y for x,y in zip(mtt_1, mtt_2)]
+    
+    return diff_mean
