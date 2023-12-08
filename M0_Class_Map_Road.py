@@ -41,7 +41,7 @@ class Map():
     
     def Experience_Snow(self, inches_of_snow=4):
         '''
-        Reduce the road max speed by 12% per inch of snow if not plowed.
+        Reduce the travel speed by 12% per inch of snow if not plowed.
         Set all roads plow time to inf
         '''
         if inches_of_snow == 0:
