@@ -1,5 +1,5 @@
 # IOE574_TermProject_SnowPlow
-IOE574_TermProject_SnowPlow <br>
+Analyzing Snow Plow Strategies in Ann Arbor <br>
 Group Member: Kate Chi, Christopher Doehring, Graham Fitkin, Riley Mulshine, Major Zeng <br>
 Date: 12/08/2023
 
