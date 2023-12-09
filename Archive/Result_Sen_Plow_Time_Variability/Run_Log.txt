@@ -1,0 +1,37 @@
+== Plow Time 0h ==
+Mean Travel Time: nan
+95 Confidence Precision Width:nan
+time: 0.02 min
+== Plow Time 1h ==
+Mean Travel Time: 12.900186394715133
+95 Confidence Precision Width:0.11125602659395802
+time: 3.23 min
+== Plow Time 2h ==
+Mean Travel Time: 12.613520908828196
+95 Confidence Precision Width:0.08214166792786673
+time: 9.27 min
+== Plow Time 3h ==
+Mean Travel Time: 12.354783534463161
+95 Confidence Precision Width:0.04999854482441542
+time: 18.17 min
+== Plow Time 4h ==
+Mean Travel Time: 12.491475967960437
+95 Confidence Precision Width:0.0393809231025969
+time: 30.16 min
+== Plow Time 5h ==
+Mean Travel Time: 12.421030028414624
+95 Confidence Precision Width:0.031030201912107053
+time: 45.1 min
+== Plow Time 6h ==
+Mean Travel Time: 12.433031008258377
+95 Confidence Precision Width:0.0257495461646919
+time: 63.18 min
+== Plow Time 7h ==
+Mean Travel Time: 12.214651847794073
+95 Confidence Precision Width:0.019833391653158564
+time: 86.98 min
+== Plow Time 8h ==
+Mean Travel Time: 12.35259917746679
+95 Confidence Precision Width:0.023484589688408136
+time: 114.18 min
+== Plow Time 9h ==

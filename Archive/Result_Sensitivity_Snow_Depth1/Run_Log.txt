@@ -1,0 +1,9 @@
+== Snow Depth 4 inch ==
+Mean Travel Time: 12.036053375308914
+95 Confidence Precision Width:0.0808927230990536
+time: 1.68 min
+== Snow Depth 4 inch ==
+Mean Travel Time: 12.223752583972692
+95 Confidence Precision Width:0.09962442695454853
+time: 3.44 min
+== Snow Depth 4 inch ==
