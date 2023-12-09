@@ -1,0 +1,5 @@
+== Plow Time 0h ==
+Mean Travel Time: nan
+95 Confidence Precision Width:nan
+time: 0.02 min
+== Plow Time 1h ==
